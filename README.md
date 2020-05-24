@@ -1,6 +1,8 @@
 # Contacts Web Application
 Implementation of a Contacts Web Application with a MySQL database in the back-end
 
+**Quick Start Guide Included**
+
 Requirements:
 1. Python 3.7
 2. mysqldb 
