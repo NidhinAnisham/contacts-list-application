@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Success</title>
+    </head>
+	<style>
+	@charset "UTF-8";
+		@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+		body {
+		  font-family: 'Open Sans', sans-serif;
+		  font-weight: 300;
+		  line-height: 1.42em;
+		  color:#A7A1AE;
+		  background-color:#1F2739;
+		  height: 94vh;
+		  background: linear-gradient(to bottom right , #2A5470 ,#4C4177);
+		}
+		h1 {
+			  font-size:3em; 
+			  font-weight: 300;
+			  line-height:1em;
+			  text-align: center;
+			}
+	.yellow { color: #8fc866; }
+	
+	.button-style {
+		width:225px;
+		background: #ff4272; 
+		display:block;
+		border-radius:200px;
+		text-align:center;
+		color:rgba(255,255,255,1);
+		text-decoration:none;
+		line-height:300%;
+		border: none;
+		position: absolute;
+		left: 50%;
+		top: 30%;
+		transform: translate(-50%, -50%);
+	}
+	</style>
+	<body>
+	<h1><span class="yellow">{{success}}</span></h1>
+	<a href="{{url_for('index')}}" class="button-style">Back</a>
+	</body>
+</html>

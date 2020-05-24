@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Create Contact</title>
+    </head>
+
+	<style>
+
+		@charset "UTF-8";
+		@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+		body {
+		  font-family: 'Open Sans', sans-serif;
+		  font-weight: 300;
+		  line-height: 1.42em;
+		  color:#A7A1AE;
+		  background-color:#1F2739;
+		  height: auto;
+		  background: linear-gradient(to bottom right , #2A5470 ,#4C4177);
+		}
+		h1 {
+			  font-size:3em; 
+			  font-weight: 300;
+			  line-height:1em;
+			  text-align: center;
+			}
+
+		.blue { color: #185875; }
+		.yellow { color: #FFF842; }
+
+		.container {
+			  text-align: left;
+			  overflow: hidden;
+			  margin: 0 auto;
+		  display: table;
+		  margin-left: 0;
+		  padding-left:1%;
+		}
+
+
+
+		/* Background-color of the odd rows */
+		.container tr:nth-child(odd) {
+			  background-color: #323C50;
+		}
+
+		/* Background-color of the even rows */
+		.container tr:nth-child(even) {
+			  background-color: #2C3446;
+		}
+
+
+		@media (max-width: 800px) {
+		.container td:nth-child(4),
+		.container th:nth-child(4) { display: none; }
+		}
+		
+		.first-child { color: #FB667A;
+		padding-left:1%;		
+		margin-bottom: 0px;}
+		
+		.button-style:hover,
+		.button-style:focus {
+		  box-shadow: 0 0.5em 0.5em -0.4em #ffa260;
+		  transform: translateY(-0.25em);
+		}
+
+		.button-style {
+		  background: none;
+		  border: 2px solid;
+		  font: inherit;
+		  margin: 0.5em;
+		  margin-left: 1%;
+		  color: #8fc866;
+		  transition: 0.25s;
+		  &:hover,
+		  &:focus { 
+			border-color: #ffa260;
+			color: #fff;
+		  }
+		}	
+		
+		.button-remove:hover,
+		.button-remove:focus {
+		  box-shadow: 0 0.5em 0.5em -0.4em #ffa260;
+		  transform: translateY(-0.25em);
+		}
+		
+		.button-remove {
+		  background: none;
+		  border: 2px solid;
+		  font: inherit;
+		  margin: 0.5em;
+		  color: #ff7f82;
+		  transition: 0.25s;
+		  &:hover,
+		  &:focus { 
+			border-color: #ffa260;
+			color: #fff;
+		  }
+		}
+		
+		input[type="text"], textarea {
+			outline: none;
+            position: relative;
+			 background: none;
+			  width: 100%;
+			  height: 11px;
+			  border: 0;
+			  color: white;
+			  font-size: 17px;
+			  font-weight: 400;
+		}
+		
+		input[type="tel"],textarea {
+			outline: none;
+            position: relative;
+			 background: none;
+			  width: 100%;
+			  height: 11px;
+			  border: 0;
+			  color: white;
+			  font-size: 17px;
+			  font-weight: 400;
+		}
+		
+		.submit-style {
+			width:125px;
+			background: #ff4272; 
+			display:block;
+			border-radius:200px;
+			text-align:center;
+			color:rgba(255,255,255,1);
+			text-decoration:none;
+			line-height:300%;
+			border: none;
+		}
+		
+		input {
+			border: 2px solid currentColor;
+		}
+
+		input:invalid {
+		  border: 2px dashed red;
+		}
+		input:invalid:focus {
+		  background-image: linear-gradient(pink, red);
+		}
+		
+	</style>
+    <body onload = "createTable()">
+        <h1><span class="yellow">EDIT CONTACT</span></h1>
+        <form action="{{ url_for('update_contact') }}" method="post" id ="new_contact">
+		<table class="container">
+			<tr>
+			 <td class="first-child">First Name:</td> 
+			 <td><input type="text" name="fname" value="{{names[0]}}" required/></td>
+			</tr>
+			<tr>
+			 <td class="first-child">Middle Name:</td> 
+			 <td><input type="text" name="mname" value="{{names[1]}}"/></td>
+			</tr>
+			<tr>
+			 <td class="first-child">Last Name:</td> 
+			 <td><input type="text" name="lname" value="{{names[2]}}" required/></td>
+			</tr>
+		</table>
+		<p class = "first-child">Address:</p>
+		<input type="button" id="addRow" value="Add New Row" class="button-style" onclick="addAddr()" />
+		<div id="addr">
+		<table id="addrTable" class="container">
+			<tr>
+				<th>Address Type</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>State</th>
+				<th>Zip</th>
+				<th></th>
+			</tr>
+			{% for address in addresses %}
+			<tr>
+				<td><input type="text" value="{{address[0]}}" name="addr_{{loop.index}}1"></td>
+				<td><input type="text" value="{{address[1]}}" name="addr_{{loop.index}}2"></td>
+				<td><input type="text" value="{{address[2]}}" name="addr_{{loop.index}}3"></td>
+				<td><input type="text" value="{{address[3]}}" name="addr_{{loop.index}}4"></td>
+				<td><input type="tel" value="{{address[4]}}" name="addr_{{loop.index}}5" pattern="[0-9]{5}"></td>
+				<td><input type="hidden" name="aid_{{loop.index}}" value="{{address[5]}}"/>
+				<input type="button" value="Remove" class="button-remove" onclick="removeRowA(this)"></td>
+			</tr>
+			{% endfor %}
+		</table>
+		</div>
+		
+		<p class = "first-child">Phone:</p>
+		<input type="button" id="addRow" value="Add New Row" class="button-style" onclick="addPhone()" />
+		<div id="phone">
+		<table id="phoneTable" class="container">
+			<tr>
+				<th>Phone Type</th>
+				<th>Area Code</th>
+				<th>Number</th>
+				<th></th>
+			</tr>
+			{% for phone in phones %}
+			<tr>
+				<td><input type="text" value="{{phone[0]}}" name="phone_{{loop.index}}1"></td>
+				<td><input type="tel" value="{{phone[1]}}" name="phone_{{loop.index}}2" pattern="[0-9]{3}" required title="Should be 3 digits"></td>
+				<td><input type="tel" value="{{phone[2]}}" name="phone_{{loop.index}}3" pattern="[0-9]{7}" required title="Should be 7 digits"></td>
+				<td><input type="hidden" name="pid_{{loop.index}}" value="{{phone[3]}}"/>
+				<input type="button" value="Remove" class="button-remove" onclick="removeRowP(this)"></td>
+			</tr>
+			{% endfor %}
+		</table>
+		
+		</div>
+		
+		<p class = "first-child">Date:</p>
+		<input type="button" id="addRow" value="Add New Row" class="button-style" onclick="addDate()" />
+		<div id="date">
+		<table id="dateTable" class="container">
+			<tr>
+				<th>Date Type</th>
+				<th>Date</th>
+				<th></th>
+			</tr>
+			{% for date in dates %}
+			<tr>
+				<td><input type="text" value="{{date[0]}}" name="date_{{loop.index}}1"></td>
+				<td><input type="date" value="{{date[1]}}" name="date_{{loop.index}}2"></td>
+				<td><input type="hidden" name="did_{{loop.index}}" value="{{date[2]}}"/>
+				<input type="button" value="Remove" class="button-remove" onclick="removeRowD(this)"></td>
+			</tr>
+			{% endfor %}
+		</table>
+		
+		</div>
+		
+		<br>
+		<input type="hidden" name="cid" value="{{cid}}"/>
+		<input type="submit" class="submit-style" value="SUBMIT">
+		</form>
+        <script>
+			var arrHead = new Array();
+			var phoneHead = new Array();
+			var dateHead = new Array();
+			arrHead = ['Address Type','Address','City','State','Zip',''];
+			phoneHead = ['Phone Type','Area Code','Number',''];
+			dateHead = ['Date Type','Date','']
+			var countadr = {{addresses|count}};
+			var countphn = {{phones|count}};
+			var countdate = {{dates|count}};
+			
+			function addAddr() {
+				var addrTab = document.getElementById('addrTable');
+				var rowCnt = addrTab.rows.length;
+				var tr = addrTab.insertRow(rowCnt);
+				countadr++;
+				tr = addrTab.insertRow(rowCnt);
+
+				for (var c = 0; c < arrHead.length; c++) {
+					var td = document.createElement('td');
+					td = tr.insertCell(c);
+					if (c == arrHead.length-1) {
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'hidden');
+						ele.setAttribute('value', '-1');	
+						ele.setAttribute('name', 'aid_'+countadr);
+						td.appendChild(ele);
+						
+						var button = document.createElement('input');
+						button.setAttribute('type', 'button');
+						button.setAttribute('value', 'Remove');
+						button.setAttribute('class', 'button-remove');
+						button.setAttribute('onclick', 'removeRowA(this)');
+						td.appendChild(button);
+					}
+					else if(c==4) {
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'tel');
+						ele.setAttribute('value', '');
+						ele.setAttribute('pattern','[0-9]{5}');		
+						ele.setAttribute('name', 'addr_'+countadr+(c+1));
+						td.appendChild(ele);
+					}
+					else {
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'text');
+						ele.setAttribute('value', '');
+						ele.setAttribute('name', 'addr_'+countadr+(c+1));
+						td.appendChild(ele);
+					}
+				}
+			}
+			
+			function addPhone() {
+				var phoneTab = document.getElementById('phoneTable');
+				var rowCnt = phoneTab.rows.length;
+				var tr = phoneTab.insertRow(rowCnt);
+				countphn++;
+				tr = phoneTab.insertRow(rowCnt);
+
+				for (var c = 0; c < phoneHead.length; c++) {
+					var td = document.createElement('td');
+					td = tr.insertCell(c);
+					if (c == phoneHead.length-1) {
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'hidden');
+						ele.setAttribute('value', '-1');	
+						ele.setAttribute('name', 'pid_'+countphn);
+						td.appendChild(ele);
+					
+						var button = document.createElement('input');
+						button.setAttribute('type', 'button');
+						button.setAttribute('value', 'Remove');
+						button.setAttribute('class', 'button-remove');
+						button.setAttribute('onclick', 'removeRowP(this)');
+						td.appendChild(button);
+					}
+					else if(c==0){
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'text');
+						ele.setAttribute('value', '');
+						ele.setAttribute('name', 'phone_'+countphn+(c+1));
+						ele.setAttribute("required", "");
+						td.appendChild(ele);
+					}
+					else if(c==1){
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'tel');
+						ele.setAttribute('value', '');
+						ele.setAttribute('pattern','[0-9]{3}');	
+						ele.setAttribute('name', 'phone_'+countphn+(c+1));
+						ele.setAttribute("required", "");
+						ele.setAttribute('title','Should be 3 digits');
+						td.appendChild(ele);					
+					}
+					else{
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'tel');
+						ele.setAttribute('value', '');
+						ele.setAttribute('pattern','[0-9]{7}');
+						ele.setAttribute('name', 'phone_'+countphn+(c+1));
+						ele.setAttribute("required", "");
+						ele.setAttribute('title','Should be 7 digits');
+						td.appendChild(ele);	
+					}
+				}
+			}
+			
+			function addDate() {
+				var dateTab = document.getElementById('dateTable');
+				var rowCnt = dateTab.rows.length;
+				var tr = dateTab.insertRow(rowCnt);
+				countdate++;
+				tr = dateTab.insertRow(rowCnt);
+
+				for (var c = 0; c < dateHead.length; c++) {
+					var td = document.createElement('td');
+					td = tr.insertCell(c);
+					if (c == dateHead.length-1) {
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'hidden');
+						ele.setAttribute('value', '-1');	
+						ele.setAttribute('name', 'did_'+countdate);
+						td.appendChild(ele);
+					
+						var button = document.createElement('input');
+						button.setAttribute('type', 'button');
+						button.setAttribute('value', 'Remove');
+						button.setAttribute('class', 'button-remove');
+						button.setAttribute('onclick', 'removeRowD(this)');
+						td.appendChild(button);
+					}
+					else if (c == 0){
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'text');
+						ele.setAttribute('value', '');
+						ele.setAttribute('name', 'date_'+countdate+(c+1));
+						td.appendChild(ele);
+					}
+					else {
+						var ele = document.createElement('input');
+						ele.setAttribute('type', 'date');
+						ele.setAttribute('value', '');
+						ele.setAttribute('name', 'date_'+countdate+(c+1));
+						td.appendChild(ele);
+					}
+				}
+			}
+			
+			function removeRowA(oButton) {
+				var addrTab = document.getElementById('addrTable');
+				addrTab.deleteRow(oButton.parentNode.parentNode.rowIndex);
+			}
+			
+			function removeRowP(oButton) {
+				var addrTab = document.getElementById('phoneTable');
+				addrTab.deleteRow(oButton.parentNode.parentNode.rowIndex);
+			}
+			
+			function removeRowD(oButton) {
+				var addrTab = document.getElementById('dateTable');
+				addrTab.deleteRow(oButton.parentNode.parentNode.rowIndex);
+			}
+        </script>
+    </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<style>
+
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.42em;
+  color:#A7A1AE;
+  background-color:#1F2739;
+  height: 100vh;
+  background: linear-gradient(to bottom right , #2A5470 ,#4C4177);
+}
+
+h1 {
+  font-size:3em; 
+  font-weight: 300;
+  line-height:1em;
+  text-align: center;
+}
+
+.blue { color: #185875; }
+.yellow { color: #FFF842; }
+
+.container th h1 {
+	  font-weight: bold;
+	  font-size: 1.5em;
+  text-align: center;
+  color: #185875;
+}
+
+.container {
+	  text-align: left;
+	  overflow: hidden;
+	  width: 80%;
+	  margin: 0 auto;
+  display: table;
+  padding: 0 0 8em 0;
+}
+
+.container td, .container th {
+	  padding-bottom: 1%;
+	  padding-top: 1%;
+  padding-left:1%;  
+}
+
+/* Background-color of the odd rows */
+.container tr:nth-child(odd) {
+	  background-color: #323C50;
+}
+
+/* Background-color of the even rows */
+.container tr:nth-child(even) {
+	  background-color: #2C3446;
+}
+
+.container th {
+	  background-color: #1F2739;
+}
+
+
+.container tr:hover {
+   background-color: #464A52;
+-webkit-box-shadow: 0 6px 6px -6px #0E1119;
+	   -moz-box-shadow: 0 6px 6px -6px #0E1119;
+	        box-shadow: 0 6px 6px -6px #0E1119;
+}
+
+
+
+@media (max-width: 800px) {
+.container td:nth-child(4),
+.container th:nth-child(4) { display: none; }
+}
+
+.search-btn {
+	 color: #e84118;
+	 float: right;
+	 width: 40px;
+	 height: 40px;
+	 border-radius: 50%;
+	 background: #2f3640;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 transition: 1s;
+	 color: white;
+	 cursor: pointer;
+	 border: none;
+	}
+	
+</style>
+<body>
+<h1><span class="yellow">Contacts</span></h1>
+
+<table class="container">
+  <thead>
+  <tr>
+    <th><h1>First Name</h1></th>
+    <th><h1>Middle Name</h1></th>
+    <th><h1>Last Name</h1></th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for row in results %}
+    <tr>
+      <td>{{row[1]}}</td>
+	  <td>{{row[2]}}</td>
+	  <td>{{row[3]}}</td>
+	  <td> <form action="{{ url_for('modify_contact') }}" method="post" id="form_id">
+	       <input type="hidden" name="cid" value="{{row[0]}}"/>
+		   <button type="submit" class="search-btn" value=""><i class="fas fa-user-edit"></i></button>
+		   </form>
+			<form action="{{ url_for('display') }}" method="post" id="form_id">
+	       <input type="hidden" name="cid" value="{{row[0]}}"/>
+		   <button type="submit" class="search-btn" value=""><i class="far fa-eye"></i></button>
+		   </form>
+		   <form action="{{ url_for('delete') }}" method="post" id="form_del" onsubmit="return confirm('Do you really want to delete?');">
+		   <input type="hidden" name="del" value="{{row[0]}}"/>
+		   <button type="submit" class="search-btn" value=""><i class="fas fa-user-slash"></i></button>
+		   </form></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">  
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+	<style>
+	@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+	
+	body {
+	 margin: 0;
+	 padding: 0;
+	 height: 100vh;
+	 background: linear-gradient(to bottom right , #2A5470 ,#4C4177);
+	}
+
+	.search-bar {
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 background: #2f3640;
+	 height: 40px;
+	 border-radius: 40px;
+	 padding: 10px;
+	}
+
+	.search-btn {
+	 color: #e84118;
+	 float: right;
+	 width: 40px;
+	 height: 40px;
+	 border-radius: 50%;
+	 background: #2f3640;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 transition: 1s;
+	 color: white;
+	 cursor: pointer;
+	 border: none;
+	}
+
+	.search-btn > i {
+	 font-size: 30px;
+	}
+
+	.search-txt {
+	 border: none;
+	 background: none;
+	 outline: none;
+	 float: left;
+	 padding: 0;
+	 color: white;
+	 font-size: 16px;
+	 transition: 1s;
+	 line-height: 40px;
+	 font-weight: bold;
+	 width: 350px;
+	 padding: 0 6px
+	}
+	
+	.title-text{	
+	 position: absolute;
+	 left: 50%;
+	 top: 30%;
+	 transform: translate(-50%, -50%);
+	 color: #FFF842;
+	 font-size:3em; 
+     font-weight: 300;
+     line-height:1em;
+     text-align: center;
+	 font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+	}
+	
+
+	.button-style {
+		width:225px;
+		background: #ff4272; 
+		display:block;
+		border-radius:200px;
+		text-align:center;
+		color:rgba(255,255,255,1);
+		text-decoration:none;
+		line-height:300%;
+		border: none;
+		position: absolute;
+		left: 20%;
+	    top: 350%;
+		font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+	}	
+		
+	</style>
+  <title>Search Bar</title>
+ </head>
+ <body>
+  <h1 class="title-text">CONTACT LIST</h1>
+  
+	
+	<div class="search-bar">
+	<form name="search-form" action = "{{url_for('search')}}" method = "POST">
+         <input type="text" name="search" class="search-txt" placeholder="Enter search terms seperated by comma" required/>
+         <button type="submit" class="search-btn" value=""><i class="fas fa-search"></i></button>
+	</form>
+		
+	<a href="{{url_for('new_contact')}}" class="button-style">Add New Contact</a>
+	</div>
+
+  
+ </body>
+</html>
