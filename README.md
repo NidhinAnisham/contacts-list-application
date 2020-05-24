@@ -1,6 +1,23 @@
 # Contacts Web Application
 Implementation of a Contacts Web Application with a MySQL database in the back-end
 
+Requirements:
+1. Python 3.7
+2. mysqldb 
+3. Flask
+4. MySQL Server
+
+Build instructions:-
+1. Install Libraries:
+	1. pip install Flask
+	2. pip install mysqlclient
+2. Create Database and Tables on MySQL server:
+	source CreateTableFile.sql
+3. Populate the tables from contacts.csv:
+	python LoadData.py
+4. Run the Flask application:
+	python Contacts.py
+  
 ## Overview:
 1. The homepage is a search bar. On clicking search icon, all the records in the database that match any of the search terms are returned.
 2. The first name, middle name and last name are displayed as the search results.
